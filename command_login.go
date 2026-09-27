@@ -1,17 +1,23 @@
 package main
 
 import (
-	"errors"
+	"context"
 	"fmt"
 )
 
 func handlerLogin(s *state, cmd command) error {
 	if len(cmd.args) == 0 {
-		return errors.New("login needs a username")
+		return fmt.Errorf("login needs a username")
 	}
 
 	username := cmd.args[0]
-	err := s.config.SetUser(username)
+
+	user, err := s.db.GetUser(context.Background(), username)
+	if err != nil {
+		return err
+	}
+
+	err = s.config.SetUser(user.Name)
 	if err != nil {
 		return err
 	}
