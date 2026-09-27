@@ -1,3 +1,3 @@
-module github.com/cjvnjde/brog_aggregator
+module github.com/cjvnjde/gator
 
 go 1.27.1
