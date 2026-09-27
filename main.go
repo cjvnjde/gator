@@ -35,6 +35,7 @@ func main() {
 
 	appCommands.register("login", handlerLogin)
 	appCommands.register("register", handlerRegister)
+	appCommands.register("reset", handlerReset)
 
 	arguments := os.Args
 
