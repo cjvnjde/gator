@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(appConfig)
+
 	db, err := sql.Open("postgres", appConfig.DBURL)
 	if err != nil {
 		log.Fatal(err)
@@ -37,6 +37,7 @@ func main() {
 	appCommands.register("register", handlerRegister)
 	appCommands.register("reset", handlerReset)
 	appCommands.register("users", handlerUsers)
+	appCommands.register("agg", handlerAgg)
 
 	arguments := os.Args
 
