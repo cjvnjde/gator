@@ -7,6 +7,7 @@ package database
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,7 +16,7 @@ import (
 const getFeeds = `-- name: GetFeeds :many
 
 SELECT
-  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at,
+  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at, feeds.last_fetched_at,
   users.id, users.name, users.created_at, users.updated_at
 FROM
   feeds
@@ -23,13 +24,14 @@ FROM
 `
 
 type GetFeedsRow struct {
-	ID        uuid.UUID
-	Name      string
-	Url       string
-	UserID    uuid.UUID
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	User      User
+	ID            uuid.UUID
+	Name          string
+	Url           string
+	UserID        uuid.UUID
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	LastFetchedAt sql.NullTime
+	User          User
 }
 
 func (q *Queries) GetFeeds(ctx context.Context) ([]GetFeedsRow, error) {
@@ -48,6 +50,7 @@ func (q *Queries) GetFeeds(ctx context.Context) ([]GetFeedsRow, error) {
 			&i.UserID,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.LastFetchedAt,
 			&i.User.ID,
 			&i.User.Name,
 			&i.User.CreatedAt,

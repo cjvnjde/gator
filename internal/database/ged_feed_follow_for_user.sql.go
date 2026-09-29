@@ -16,7 +16,7 @@ const getFeedFollowForUser = `-- name: GetFeedFollowForUser :many
 SELECT
   feed_follows.id, feed_follows.user_id, feed_follows.feed_id, feed_follows.created_at, feed_follows.updated_at,
   users.id, users.name, users.created_at, users.updated_at,
-  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at
+  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at, feeds.last_fetched_at
 FROM
   feed_follows
   INNER JOIN users ON users.id = feed_follows.user_id
@@ -60,6 +60,7 @@ func (q *Queries) GetFeedFollowForUser(ctx context.Context, userID uuid.UUID) ([
 			&i.Feed.UserID,
 			&i.Feed.CreatedAt,
 			&i.Feed.UpdatedAt,
+			&i.Feed.LastFetchedAt,
 		); err != nil {
 			return nil, err
 		}

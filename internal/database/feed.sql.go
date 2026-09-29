@@ -18,7 +18,7 @@ INSERT INTO
 VALUES
   ($1, $2, $3, $4, $5, $6)
 RETURNING
-  id, name, url, user_id, created_at, updated_at
+  id, name, url, user_id, created_at, updated_at, last_fetched_at
 `
 
 type CreateFeedParams struct {
@@ -47,6 +47,7 @@ func (q *Queries) CreateFeed(ctx context.Context, arg CreateFeedParams) (Feed, e
 		&i.UserID,
 		&i.CreatedAt,
 		&i.UpdatedAt,
+		&i.LastFetchedAt,
 	)
 	return i, err
 }

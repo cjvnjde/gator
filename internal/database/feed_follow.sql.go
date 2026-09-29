@@ -25,7 +25,7 @@ WITH
 SELECT
   insterted_feed_follow.id, insterted_feed_follow.user_id, insterted_feed_follow.feed_id, insterted_feed_follow.created_at, insterted_feed_follow.updated_at,
   users.id, users.name, users.created_at, users.updated_at,
-  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at
+  feeds.id, feeds.name, feeds.url, feeds.user_id, feeds.created_at, feeds.updated_at, feeds.last_fetched_at
 FROM
   insterted_feed_follow
   INNER JOIN users ON users.id = insterted_feed_follow.user_id
@@ -75,6 +75,7 @@ func (q *Queries) CreateFeedFollow(ctx context.Context, arg CreateFeedFollowPara
 		&i.Feed.UserID,
 		&i.Feed.CreatedAt,
 		&i.Feed.UpdatedAt,
+		&i.Feed.LastFetchedAt,
 	)
 	return i, err
 }
